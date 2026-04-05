@@ -1,12 +1,8 @@
 package pl.dalke.issue_tracker_api.ticket;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import pl.dalke.issue_tracker_api.user.UserEntity;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -32,8 +28,11 @@ public class TicketEntity {
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
-    protected TicketEntity() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private UserEntity owner;
+
+    protected TicketEntity() {}
 
     public void setId(UUID id) {
         this.id = id;
@@ -53,5 +52,9 @@ public class TicketEntity {
 
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setOwner(UserEntity owner) {
+        this.owner = owner;
     }
 }

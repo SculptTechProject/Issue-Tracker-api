@@ -1,6 +1,7 @@
 package pl.dalke.issue_tracker_api.ticket;
 
 import org.springframework.stereotype.Service;
+import pl.dalke.issue_tracker_api.user.UserRepository;
 
 import java.time.Instant;
 import java.util.List;
@@ -17,11 +18,13 @@ public class TicketService {
 
     public TicketResponse createTicket(CreateTicketRequest request) {
         TicketEntity ticket = new TicketEntity();
+//        UserEntity owner = UserRepository.findById(request);
         ticket.setId(UUID.randomUUID());
         ticket.setTitle(request.title());
         ticket.setDescription(request.description());
         ticket.setStatus(TicketStatus.OPEN);
         ticket.setCreatedAt(Instant.now());
+//        ticket.setOwner(request.ownerId);
 
         TicketEntity savedTicket = ticketRepository.save(ticket);
         return mapToResponse(savedTicket);
