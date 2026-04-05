@@ -12,7 +12,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserEntity findByLogin(String login){
-        return userRepository.findByLogin(login).orElseThrow();
+    public UserEntity findByLogin(String login) {
+        return userRepository.findByLogin(login)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

@@ -15,8 +15,14 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public UserEntity me(Authentication authentication) {
+    public UserResponse me(Authentication authentication) {
         String login = authentication.getName();
-        return userService.findByLogin(login);
+        UserEntity user = userService.findByLogin(login);
+
+        return new UserResponse(
+                user.getId(),
+                user.getLogin(),
+                user.getRole()
+        );
     }
 }
