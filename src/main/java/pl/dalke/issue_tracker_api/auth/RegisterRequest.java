@@ -1,4 +1,6 @@
 package pl.dalke.issue_tracker_api.auth;
 
-public class RegisterRequest {
-}
+public record RegisterRequest (
+        String login,
+        String password
+) { }

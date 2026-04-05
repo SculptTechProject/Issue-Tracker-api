@@ -16,7 +16,7 @@ public class UserEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 20, unique = true)
     private String login;
 
     @Column(nullable = false)
@@ -28,5 +28,5 @@ public class UserEntity {
     @OneToMany(mappedBy = "owner")
     private List<TicketEntity> tickets;
 
-    protected UserEntity() {}
+    public UserEntity() {}
 }

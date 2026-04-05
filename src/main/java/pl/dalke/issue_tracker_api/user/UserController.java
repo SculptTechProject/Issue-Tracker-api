@@ -1,5 +1,7 @@
 package pl.dalke.issue_tracker_api.user;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,5 +14,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    //TODO, after auth implementation :D
+    @GetMapping("/me")
+    public UserEntity me(Authentication authentication) {
+        String login = authentication.getName();
+        return userService.findByLogin(login);
+    }
 }
