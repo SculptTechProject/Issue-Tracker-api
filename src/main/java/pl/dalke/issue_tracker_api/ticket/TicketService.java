@@ -1,6 +1,7 @@
 package pl.dalke.issue_tracker_api.ticket;
 
 import org.springframework.stereotype.Service;
+import pl.dalke.issue_tracker_api.user.UserEntity;
 import pl.dalke.issue_tracker_api.user.UserRepository;
 
 import java.time.Instant;
@@ -11,20 +12,24 @@ import java.util.UUID;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
 
-    public TicketService(TicketRepository ticketRepository) {
+    public TicketService(TicketRepository ticketRepository, UserRepository userRepository) {
         this.ticketRepository = ticketRepository;
+        this.userRepository = userRepository;
     }
 
-    public TicketResponse createTicket(CreateTicketRequest request) {
+    public TicketResponse createTicket(CreateTicketRequest request, String login) {
+        UserEntity owner = userRepository.findByLogin(login)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         TicketEntity ticket = new TicketEntity();
-//        UserEntity owner = UserRepository.findById(request);
         ticket.setId(UUID.randomUUID());
         ticket.setTitle(request.title());
         ticket.setDescription(request.description());
         ticket.setStatus(TicketStatus.OPEN);
         ticket.setCreatedAt(Instant.now());
-//        ticket.setOwner(request.ownerId);
+        ticket.setOwner(owner);
 
         TicketEntity savedTicket = ticketRepository.save(ticket);
         return mapToResponse(savedTicket);

@@ -1,6 +1,7 @@
 package pl.dalke.issue_tracker_api.ticket;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +17,9 @@ public class TicketController {
     }
 
     @PostMapping
-    public TicketResponse createTicket(@RequestBody CreateTicketRequest request) {
-        return ticketService.createTicket(request);
+    public TicketResponse createTicket(@RequestBody CreateTicketRequest request, Authentication authentication) {
+        String login = authentication.getName();
+        return ticketService.createTicket(request, login);
     }
 
     @GetMapping
