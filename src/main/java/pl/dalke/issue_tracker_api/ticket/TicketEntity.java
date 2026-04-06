@@ -2,11 +2,13 @@ package pl.dalke.issue_tracker_api.ticket;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import pl.dalke.issue_tracker_api.user.UserEntity;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "tickets")
@@ -34,27 +36,4 @@ public class TicketEntity {
 
     protected TicketEntity() {}
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setStatus(TicketStatus status) {
-        this.status = status;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setOwner(UserEntity owner) {
-        this.owner = owner;
-    }
 }
